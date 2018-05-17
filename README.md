@@ -1,2 +1,2 @@
 # MLC
-Multi Label Classifier
+Multi-Label Classification
