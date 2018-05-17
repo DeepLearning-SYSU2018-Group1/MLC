@@ -104,13 +104,13 @@ class ChexnetTrainer():
             timestampSTART = timestampDate + '-' + timestampTime
 
             ChexnetTrainer.epochTrain(model, dataLoaderTrain, optimizer, scheduler, classCount, loss)
-            lossVal, losstensor = ChexnetTrainer.epochVal(model, dataLoaderVal, optimizer, scheduler, classCount, loss)
+            lossVal = ChexnetTrainer.epochVal(model, dataLoaderVal, optimizer, scheduler, classCount, loss)
 
             timestampTime = time.strftime("%H%M%S")
             timestampDate = time.strftime("%d%m%Y")
             timestampEND = timestampDate + '-' + timestampTime
 
-            scheduler.step(losstensor.item())
+            scheduler.step(lossVal)
 
             if lossVal < lossMin:
                 lossMin = lossVal
@@ -137,22 +137,16 @@ class ChexnetTrainer():
             optimizer.zero_grad()
             lossvalue.backward()
             optimizer.step()
-#            if batchIdx == 100:
-#                break;
             print(batchIdx)
 
 
     def epochVal(model, dataLoader, optimizer, scheduler, classCount, loss):
 
         model.eval()
-#        print("epoch variable: #######################")
-#        return 0,0;
         lossVal = 0
         lossValNorm = 0
-        losstensorMean = 0
 
         for i, (input, target) in enumerate(dataLoader):
-            print("epochVal: ========================", i)
             target = target.cuda(async = True)
 
             varInput = torch.autograd.Variable(input)
@@ -160,16 +154,13 @@ class ChexnetTrainer():
             varOutput = model(varInput)
 
             losstensor = loss(varOutput, varTarget)
-            losstensorMean = losstensor
 
             lossVal += float(losstensor.item())
             lossValNorm += 1
             del losstensor
-        print("end xunhuan ==================")
         outLossVal = lossVal / lossValNorm
-        losstensorMean = losstensorMean / lossValNorm
 
-        return outLossVal, losstensorMean
+        return outLossVal
 
 
 def compute_AUROCs(gt, pred, classCount):
