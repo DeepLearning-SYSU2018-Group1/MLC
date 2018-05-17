@@ -19,10 +19,10 @@ import time
 from trainer import ChexnetTrainer
 
 
-DATA_DIR = '../../medical_report/images/'
-IMAGE_LIST_TEST = '../../medical_report/labels/test_data.txt'
-IMAGE_LIST_TRAIN = '../../medical_report/labels/train_data.txt'
-IMAGE_LIST_VAL = '../../medical_report/labels/val_data.txt'
+DATA_DIR = '../medical_report/images/'
+IMAGE_LIST_TEST = '../medical_report/labels/test_data.txt'
+IMAGE_LIST_TRAIN = '../medical_report/labels/train_data.txt'
+IMAGE_LIST_VAL = '../medical_report/labels/val_data.txt'
 
 def main():
 
