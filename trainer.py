@@ -163,23 +163,120 @@ class ChexnetTrainer():
         return outLossVal
 
 
-def compute_AUROCs(gt, pred, classCount):
-    """Computes Area Under the Curve (AUC) from prediction scores.
+    def compute_AUROCs(gt, pred, classCount):
+        """Computes Area Under the Curve (AUC) from prediction scores.
 
-    Args:
-        gt - ground truth data
-        pred - predicted data
+        Args:
+            gt - ground truth data
+            pred - predicted data
 
-    Returns:
-        List of AUROCs of all classes.
+        Returns:
+            List of AUROCs of all classes.
 
-    """
-    AUROCs = []
-    gt_np = gt.cpu().numpy()
-    pred_np = pred.cpu().numpy()
-    for i in range(classCount):
-        AUROCs.append(roc_auc_score(gt_np[:, i], pred_np[:, i]))
-    return AUROCs
+        """
+        AUROCs = []
+        gt_np = gt.cpu().numpy()
+        pred_np = pred.cpu().numpy()
+        for i in range(classCount):
+            AUROCs.append(roc_auc_score(gt_np[:, i], pred_np[:, i]))
+        return AUROCs
+
+    def computeAUROC (dataGT, dataPRED, classCount):
+        
+        outAUROC = []
+        
+        datanpGT = dataGT.cpu().numpy()
+        datanpPRED = dataPRED.cpu().numpy()
+        
+        for i in range(classCount):
+            outAUROC.append(roc_auc_score(datanpGT[:, i], datanpPRED[:, i]))
+            
+        return outAUROC
+
+    def test (dataDir, imageListFileTest, pathModel, isTrained, classCount, batchSize, transResize, transCrop):   
+        
+        print("test begins!=======================")
+
+        CLASS_NAMES = ['base','lung, hyperlucent','right','retrocardiac','costophrenic angle','airspace disease','blunted','lung','catheters, indwelling','left',
+        'pleural effusion','posterior','small','normal','granulomatous disease','thorax','round','chronic','multiple','density','borderline','cardiomegaly','mild',
+        'bronchovascular','hypoinflation','markings','interstitial','bilateral','prominent','hyperdistention','nipple shadow','scoliosis','elevated','diaphragm',
+        'lumbar vertebrae','scattered','deformity','pulmonary atelectasis','opacity','ribs','cicatrix','upper lobe','calcified granuloma','thoracic vertebrae',
+        'spondylosis','medical device','atherosclerosis','degenerative','moderate','calcinosis','aorta','spine','pleura','thickening','aorta, thoracic','granuloma',
+        'tortuous','hilum','focal','diffuse','foreign bodies','mediastinum','surgical instruments','clavicle','severe','implanted medical device','lymph nodes',
+        'aortic valve','lower lobe','pneumonectomy','nodule','lingula','middle lobe','mass','pulmonary edema','blood vessels','emphysema','infiltrate','large',
+        'patchy','apex','pulmonary disease, chronic obstructive','osteophyte','streaky','flattened','kyphosis','sclerosis','lucency','humerus','cysts',
+        'lung diseases, interstitial','cardiac shadow','enlarged','tube, inserted','obscured','hernia, hiatal','heart','pulmonary fibrosis','pulmonary emphysema',
+        'cystic fibrosis','bronchiectasis','stents','abdomen','hyperostosis, diffuse idiopathic skeletal','spinal fusion','pneumonia','breast','mastectomy',
+        'consolidation','fractures, bone','healed','no indexing','heart failure','pulmonary congestion','sulcus','azygos lobe','bullous emphysema','irregular',
+        'pulmonary alveoli','epicardial fat','pneumothorax','anterior','technical quality of image unsatisfactory','pulmonary artery','paratracheal','bone diseases, metabolic',
+        'diaphragmatic eventration','neck','shoulder','dislocations','pneumoperitoneum','trachea, carina','sutures','blister','abnormal','cervical vertebrae','arthritis',
+        'shift','trachea','aortic aneurysm','hypertension, pulmonary','sternum','pericardial effusion','reticular','heart atria','adipose tissue','coronary vessels',
+        'volume loss','hydropneumothorax','sarcoidosis','breast implants','cavitation','funnel chest','bronchi','heart ventricles','contrast media']
+        
+        cudnn.benchmark = True
+        
+        model = CheXNet(classCount, isTrained).cuda()
+        model = torch.nn.DataParallel(model).cuda() 
+        
+        modelCheckpoint = torch.load(pathModel)
+        model.load_state_dict(modelCheckpoint['state_dict'])
+        
+        # data transforms
+        # ---------------
+        normalize = transforms.Normalize([0.485, 0.456, 0.406],
+                                         [0.229, 0.224, 0.225])
+        transformList = []
+        transformList.append(transforms.Resize(transResize))
+        transformList.append(transforms.TenCrop(transCrop))
+        transformList.append(transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])))
+        transformList.append(transforms.Lambda(lambda crops: torch.stack([normalize(crop) for crop in crops])))
+        transform=transforms.Compose(transformList)
+
+        # datasets
+        # ---------------
+        datasetTest = ChestXrayDataSet(data_dir = dataDir,
+                                        image_list_file = imageListFileTest,
+                                        transform = transform)
+        print(datasetTest.__len__())
+        dataLoaderTest = DataLoader(dataset = datasetTest, batch_size = batchSize,
+                                     shuffle = False, num_workers = 8, pin_memory = True)
+
+
+        outGT = torch.FloatTensor().cuda()
+        outPRED = torch.FloatTensor().cuda()
+       
+        model.eval()
+        
+        for i, (inp, target) in enumerate(dataLoaderTest):
+            
+            target = target.cuda()
+            outGT = torch.cat((outGT, target), 0)
+            
+            bs, n_crops, c, h, w = inp.size()
+            
+            varInput = torch.autograd.Variable(inp.view(-1, c, h, w).cuda(), volatile=True)
+            
+            out = model(varInput)
+            outMean = out.view(bs, n_crops, -1).mean(1)
+            
+            outPRED = torch.cat((outPRED, outMean.data), 0)
+
+        aurocIndividual = ChexnetTrainer.computeAUROC(outGT, outPRED, classCount)
+        aurocMean = np.array(aurocIndividual).mean()
+        
+        print ('AUROC mean ', aurocMean)
+        
+        with open('./AUROCresult.txt', "w") as f:
+            f.write('AUROC mean :')
+            f.write(str(aurocMean))
+            f.write('\n')
+            for i in range (0, len(aurocIndividual)):
+                print('The AUROC of {} is {}'.format(CLASS_NAMES[i], aurocIndividual[i]))
+                f.write('The AUROC of {} is {}'.format(CLASS_NAMES[i], aurocIndividual[i]))
+                f.write('\n')
+            f.close()
+        
+        return
 
 
 class CheXNet(nn.Module):

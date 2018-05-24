@@ -40,6 +40,7 @@ def main():
     dataDir = DATA_DIR
     imageListFileTrain = IMAGE_LIST_TRAIN
     imageListFileVal = IMAGE_LIST_VAL
+    imageListFileTest = IMAGE_LIST_TEST
 
     timestampTime = time.strftime("%H%M%S")
     timestampDate = time.strftime("%d%m%Y")
@@ -52,10 +53,13 @@ def main():
     classCount = 156
 
     batchSize = 16
+    test_batchSize = 8
     epochSize = 100
 
-    ChexnetTrainer.train(dataDir, imageListFileTrain, imageListFileVal, transResize, transCrop, isTrained, classCount, batchSize, epochSize, timestampLaunch, None);
+    pathModel = '../../MLC/m-17052018-214116.pth.tar'
 
+    # ChexnetTrainer.train(dataDir, imageListFileTrain, imageListFileVal, transResize, transCrop, isTrained, classCount, batchSize, epochSize, timestampLaunch, None);
+    ChexnetTrainer.test (dataDir, imageListFileTest, pathModel, isTrained, classCount, test_batchSize, transResize, transCrop)
 
 if __name__ == '__main__':
     main()
