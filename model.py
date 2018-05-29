@@ -49,6 +49,7 @@ def trainModel():
     dataDir = DATA_DIR
     imageListFileTrain = IMAGE_LIST_TRAIN
     imageListFileVal = IMAGE_LIST_VAL
+    imageListFileTest = IMAGE_LIST_TEST
 
     #define parameters: time for the name of checkpoint file
     timestampTime = time.strftime("%H%M%S")
@@ -63,6 +64,7 @@ def trainModel():
     classCount = 156
 
     batchSize = 16
+    test_batchSize = 8
     epochSize = 100
     ChexnetTrainer.train(dataDir, imageListFileTrain, imageListFileVal, transResize, transCrop, isTrained, classCount, batchSize, epochSize, timestampDate, None)
 
@@ -89,7 +91,6 @@ def testModel():
     epochSize = 100
 
     ChexnetTester.test(dataDir, imageListFileTest, pathModel, classCount, isTrained, batchSize, transResize, transCrop)
-
 
 if __name__ == '__main__':
     main()

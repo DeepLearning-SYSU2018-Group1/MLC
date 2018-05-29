@@ -1,0 +1,157 @@
+AUROC mean :0.725495392213588
+The AUROC of base is 0.7647851059615765
+The AUROC of lung, hyperlucent is 0.8028094354624967
+The AUROC of right is 0.6054361084308835
+The AUROC of retrocardiac is 0.44689993861264576
+The AUROC of costophrenic angle is 0.7776890042944172
+The AUROC of airspace disease is 0.7610180012414649
+The AUROC of blunted is 0.8010311447811447
+The AUROC of lung is 0.7531089721070751
+The AUROC of catheters, indwelling is 0.7274628252788103
+The AUROC of left is 0.6839250493096647
+The AUROC of pleural effusion is 0.9303326810176125
+The AUROC of posterior is 0.6027312228429547
+The AUROC of small is 0.7720087548638132
+The AUROC of normal is 0.785829803619561
+The AUROC of granulomatous disease is 0.7197477650063858
+The AUROC of thorax is 0.670076726342711
+The AUROC of round is 0.5985426786953505
+The AUROC of chronic is 0.7021943573667713
+The AUROC of multiple is 0.6407604137545428
+The AUROC of density is 0.6882396449704142
+The AUROC of borderline is 0.6780442804428044
+The AUROC of cardiomegaly is 0.9076089188190366
+The AUROC of mild is 0.5969506726457399
+The AUROC of bronchovascular is 0.894413750767342
+The AUROC of hypoinflation is 0.8649369705862736
+The AUROC of markings is 0.621455223880597
+The AUROC of interstitial is 0.8429174664107486
+The AUROC of bilateral is 0.7754990429313645
+The AUROC of prominent is 0.6309751434034416
+The AUROC of hyperdistention is 0.8927478376580172
+The AUROC of nipple shadow is 0.9577981651376146
+The AUROC of scoliosis is 0.556960049937578
+The AUROC of elevated is 0.9199255121042831
+The AUROC of diaphragm is 0.7739629229362374
+The AUROC of lumbar vertebrae is 0.9743119266055046
+The AUROC of scattered is 0.6632936728566663
+The AUROC of deformity is 0.7644026934907308
+The AUROC of pulmonary atelectasis is 0.90625
+The AUROC of opacity is 0.8243375489310448
+The AUROC of ribs is 0.58125
+The AUROC of cicatrix is 0.7126943220550337
+The AUROC of upper lobe is 0.6947377171834732
+The AUROC of calcified granuloma is 0.6933574045558328
+The AUROC of thoracic vertebrae is 0.8001093792726278
+The AUROC of spondylosis is 0.7666045934202359
+The AUROC of medical device is 0.9613970588235294
+The AUROC of atherosclerosis is 0.8394625719769673
+The AUROC of degenerative is 0.7462239177826221
+The AUROC of moderate is 0.9308118081180812
+The AUROC of calcinosis is 0.7258399209486166
+The AUROC of aorta is 0.8679512466494715
+The AUROC of spine is 0.6399092970521542
+The AUROC of pleura is 0.6165906816412765
+The AUROC of thickening is 0.640171858216971
+The AUROC of aorta, thoracic is 0.8513288112976759
+The AUROC of granuloma is 0.6401373283395755
+The AUROC of tortuous is 0.8983087133376151
+The AUROC of hilum is 0.7106299212598425
+The AUROC of focal is 0.3707796193984039
+The AUROC of diffuse is 0.9178372647760402
+The AUROC of foreign bodies is 0.9155963302752294
+The AUROC of mediastinum is 0.5682539682539682
+The AUROC of surgical instruments is 0.6637971698113208
+The AUROC of clavicle is 0.3167587476979742
+The AUROC of severe is 0.6910112359550562
+The AUROC of implanted medical device is 0.8469500924214419
+The AUROC of lymph nodes is 0.757015879356836
+The AUROC of aortic valve is 0.6939338235294118
+The AUROC of lower lobe is 0.7383841207715963
+The AUROC of pneumonectomy is 0.6148897058823529
+The AUROC of nodule is 0.635322692574601
+The AUROC of lingula is 0.5020910780669146
+The AUROC of middle lobe is 0.7673954372623574
+The AUROC of mass is 0.7683540948847072
+The AUROC of pulmonary edema is 0.8047578589634664
+The AUROC of blood vessels is 0.8115408225905463
+The AUROC of emphysema is 0.8923220973782772
+The AUROC of infiltrate is 0.9372659176029963
+The AUROC of large is 0.6891068115557912
+The AUROC of patchy is 0.9339506172839507
+The AUROC of apex is 0.758003838771593
+The AUROC of pulmonary disease, chronic obstructive is 0.866635687732342
+The AUROC of osteophyte is 0.6287313432835822
+The AUROC of streaky is 0.703125
+The AUROC of flattened is 0.8948189762796506
+The AUROC of kyphosis is 0.9375231053604437
+The AUROC of sclerosis is 0.4404981549815498
+The AUROC of lucency is 0.33025830258302585
+The AUROC of humerus is 0.6826568265682657
+The AUROC of cysts is 0.5560661764705883
+The AUROC of lung diseases, interstitial is 0.9522058823529412
+The AUROC of cardiac shadow is 0.9401109057301293
+The AUROC of enlarged is 0.8164607948442535
+The AUROC of tube, inserted is 0.8101851851851852
+The AUROC of obscured is 0.7475031210986267
+The AUROC of hernia, hiatal is 0.9551872314303254
+The AUROC of heart is 0.6120848708487086
+The AUROC of pulmonary fibrosis is 0.9650735294117646
+The AUROC of pulmonary emphysema is 0.9091328413284132
+The AUROC of cystic fibrosis is 0.7689114391143912
+The AUROC of bronchiectasis is 0.8244485294117647
+The AUROC of stents is 0.6066543438077634
+The AUROC of abdomen is 0.5884328358208956
+The AUROC of hyperostosis, diffuse idiopathic skeletal is 0.6902573529411765
+The AUROC of spinal fusion is 0.7306985294117647
+The AUROC of pneumonia is 0.8403928790669122
+The AUROC of breast is 0.5748741054863504
+The AUROC of mastectomy is 0.9788602941176471
+The AUROC of consolidation is 0.9541478929234032
+The AUROC of fractures, bone is 0.5980128893662727
+The AUROC of healed is 0.3079482439926063
+The AUROC of no indexing is 0.572642310960068
+The AUROC of heart failure is 0.9626383763837638
+The AUROC of pulmonary congestion is 0.9424157303370787
+The AUROC of sulcus is 0.59375
+The AUROC of azygos lobe is 0.5174632352941176
+The AUROC of bullous emphysema is 0.8035604665438918
+The AUROC of irregular is 0.8724584103512014
+The AUROC of pulmonary alveoli is 0.9742647058823529
+The AUROC of epicardial fat is 0.6632841328413284
+The AUROC of pneumothorax is 0.7178308823529411
+The AUROC of anterior is 0.6027985074626866
+The AUROC of technical quality of image unsatisfactory is 0.6296641791044776
+The AUROC of pulmonary artery is 0.42095588235294124
+The AUROC of paratracheal is 0.7112546125461254
+The AUROC of bone diseases, metabolic is 0.9160516605166051
+The AUROC of diaphragmatic eventration is 0.7195571955719557
+The AUROC of neck is 0.04136029411764708
+The AUROC of shoulder is 0.6425276752767528
+The AUROC of dislocations is 0.6715596330275229
+The AUROC of pneumoperitoneum is 0.3125
+The AUROC of trachea, carina is 0.7518382352941176
+The AUROC of sutures is 0.5119485294117647
+The AUROC of blister is 0.9963235294117647
+The AUROC of abnormal is 0.6128440366972476
+The AUROC of cervical vertebrae is 0.6516544117647058
+The AUROC of arthritis is 0.8624535315985129
+The AUROC of shift is 0.5179889298892989
+The AUROC of trachea is 0.6867283950617284
+The AUROC of aortic aneurysm is 0.5979128299570289
+The AUROC of hypertension, pulmonary is 0.8261070110701106
+The AUROC of sternum is 0.8403928790669122
+The AUROC of pericardial effusion is 0.3161764705882353
+The AUROC of reticular is 0.703125
+The AUROC of heart atria is 0.5661764705882353
+The AUROC of adipose tissue is 0.24172794117647062
+The AUROC of coronary vessels is 0.5982472324723247
+The AUROC of volume loss is 0.7158671586715868
+The AUROC of hydropneumothorax is 0.8704726826273788
+The AUROC of sarcoidosis is 0.839154411764706
+The AUROC of breast implants is 0.6553308823529411
+The AUROC of cavitation is 0.9428044280442804
+The AUROC of funnel chest is 0.5412844036697247
+The AUROC of bronchi is 0.8253676470588236
+The AUROC of heart ventricles is 0.9375
+The AUROC of contrast media is 0.8731617647058824
