@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import os
 import numpy as np
 import time
@@ -34,7 +35,6 @@ class ChexnetTrainer():
             batchSize - batch size
             epochSize - number of epochs
             launchTimestamp - date/time, used to assign unique name for the checkpoint file
-            checkpoint - if not None loads the model and continues training
 
         """
 
@@ -43,7 +43,6 @@ class ChexnetTrainer():
 
         # initialize and load the model
         # ---------------
-        print("train begins!=======================")
         model = CheXNet(classCount, isTrained).cuda()
         model = torch.nn.DataParallel(model).cuda()
 
@@ -98,7 +97,6 @@ class ChexnetTrainer():
         lossMin = 100000
 
         for epochIdx in range(0, epochSize):
-            print("EpochIdx: ################ ",epochIdx)
             timestampTime = time.strftime("%H%M%S")
             timestampDate = time.strftime("%d%m%Y")
             timestampSTART = timestampDate + '-' + timestampTime

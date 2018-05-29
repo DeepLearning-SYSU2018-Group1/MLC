@@ -1,7 +1,11 @@
+# -*- coding:utf-8 -*-
 """
 The model and training implementation.
-"""
+The main function includes trainer and tester, you can choose one of them to run
+and the default is tester
 
+update in 2018/5/26 15:35
+"""
 
 import os
 import numpy as np
@@ -17,34 +21,41 @@ from sklearn.metrics import roc_auc_score
 import time
 
 from trainer import ChexnetTrainer
+from tester import ChexnetTester
 
 
 DATA_DIR = '../../medical_report/images/'
 IMAGE_LIST_TEST = '../../medical_report/labels/test_data.txt'
 IMAGE_LIST_TRAIN = '../../medical_report/labels/train_data.txt'
 IMAGE_LIST_VAL = '../../medical_report/labels/val_data.txt'
+CKPT_PATH = 'm-17052018-214116.pth.tar'
 
 def main():
 
-    test_dataset = ChestXrayDataSet(data_dir=DATA_DIR,
-                                    image_list_file=IMAGE_LIST_TEST)
+    #train the model
+    #trainModel()
 
-    length = test_dataset.__len__()
-    print ("The length of test data is ", length)
+    #test the model
+    testModel()
 
-    # (image_name, label, image) = test_dataset.__getitem__(0)
-    # print ("The path of the first image is ", image_name, ", the lable of it is ", label)
-    # (image, label) = test_dataset.__getitem__(0)
-    # print ("The lable of the first image is ", label)
 
+def trainModel():
+    train_dataset = ChestXrayDataSet(data_dir = DATA_DIR,
+                                     image_list_file = IMAGE_LIST_TRAIN)
+    length = train_dataset.__len__()
+    print("The length of training data is ", length)
+
+    #define parameters: address
     dataDir = DATA_DIR
     imageListFileTrain = IMAGE_LIST_TRAIN
     imageListFileVal = IMAGE_LIST_VAL
 
+    #define parameters: time for the name of checkpoint file
     timestampTime = time.strftime("%H%M%S")
-    timestampDate = time.strftime("%d%m%Y")
+    timestampDate = time.strftime("%Y%m%d")
     timestampLaunch = timestampDate + '-' + timestampTime
 
+    #define the parameters of the model
     transResize = 256
     transCrop = 224
 
@@ -53,8 +64,31 @@ def main():
 
     batchSize = 16
     epochSize = 100
+    ChexnetTrainer.train(dataDir, imageListFileTrain, imageListFileVal, transResize, transCrop, isTrained, classCount, batchSize, epochSize, timestampDate, None)
 
-    ChexnetTrainer.train(dataDir, imageListFileTrain, imageListFileVal, transResize, transCrop, isTrained, classCount, batchSize, epochSize, timestampLaunch, None);
+
+def testModel():
+    test_dataset = ChestXrayDataSet(data_dir=DATA_DIR,
+                                    image_list_file=IMAGE_LIST_TEST)
+    length = test_dataset.__len__()
+    print("The length of test data is ", length)
+
+    #define parameters: address
+    dataDir = DATA_DIR
+    imageListFileTest = IMAGE_LIST_TEST
+    pathModel = CKPT_PATH
+
+    #define the parameters of the model
+    transResize = 256
+    transCrop = 224
+
+    isTrained = True
+    classCount = 156
+
+    batchSize = 1
+    epochSize = 100
+
+    ChexnetTester.test(dataDir, imageListFileTest, pathModel, classCount, isTrained, batchSize, transResize, transCrop)
 
 
 if __name__ == '__main__':
