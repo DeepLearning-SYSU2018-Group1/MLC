@@ -92,8 +92,6 @@ class ChexnetTrainer():
         # Train
         # ^^^^^
 
-        # TODO: train, epochTrain and epochVal
-
         lossMin = 100000
 
         for epochIdx in range(0, epochSize):
@@ -180,19 +178,19 @@ class ChexnetTrainer():
         return AUROCs
 
     def computeAUROC (dataGT, dataPRED, classCount):
-        
+
         outAUROC = []
-        
+
         datanpGT = dataGT.cpu().numpy()
         datanpPRED = dataPRED.cpu().numpy()
-        
+
         for i in range(classCount):
             outAUROC.append(roc_auc_score(datanpGT[:, i], datanpPRED[:, i]))
-            
+
         return outAUROC
 
-    def test (dataDir, imageListFileTest, pathModel, isTrained, classCount, batchSize, transResize, transCrop):   
-        
+    def test (dataDir, imageListFileTest, pathModel, isTrained, classCount, batchSize, transResize, transCrop):
+
         print("test begins!=======================")
 
         CLASS_NAMES = ['base','lung, hyperlucent','right','retrocardiac','costophrenic angle','airspace disease','blunted','lung','catheters, indwelling','left',
@@ -210,15 +208,15 @@ class ChexnetTrainer():
         'diaphragmatic eventration','neck','shoulder','dislocations','pneumoperitoneum','trachea, carina','sutures','blister','abnormal','cervical vertebrae','arthritis',
         'shift','trachea','aortic aneurysm','hypertension, pulmonary','sternum','pericardial effusion','reticular','heart atria','adipose tissue','coronary vessels',
         'volume loss','hydropneumothorax','sarcoidosis','breast implants','cavitation','funnel chest','bronchi','heart ventricles','contrast media']
-        
+
         cudnn.benchmark = True
-        
+
         model = CheXNet(classCount, isTrained).cuda()
-        model = torch.nn.DataParallel(model).cuda() 
-        
+        model = torch.nn.DataParallel(model).cuda()
+
         modelCheckpoint = torch.load(pathModel)
         model.load_state_dict(modelCheckpoint['state_dict'])
-        
+
         # data transforms
         # ---------------
         normalize = transforms.Normalize([0.485, 0.456, 0.406],
@@ -242,28 +240,28 @@ class ChexnetTrainer():
 
         outGT = torch.FloatTensor().cuda()
         outPRED = torch.FloatTensor().cuda()
-       
+
         model.eval()
-        
+
         for i, (inp, target) in enumerate(dataLoaderTest):
-            
+
             target = target.cuda()
             outGT = torch.cat((outGT, target), 0)
-            
+
             bs, n_crops, c, h, w = inp.size()
-            
+
             varInput = torch.autograd.Variable(inp.view(-1, c, h, w).cuda(), volatile=True)
-            
+
             out = model(varInput)
             outMean = out.view(bs, n_crops, -1).mean(1)
-            
+
             outPRED = torch.cat((outPRED, outMean.data), 0)
 
         aurocIndividual = ChexnetTrainer.computeAUROC(outGT, outPRED, classCount)
         aurocMean = np.array(aurocIndividual).mean()
-        
+
         print ('AUROC mean ', aurocMean)
-        
+
         with open('./AUROCresult.txt', "w") as f:
             f.write('AUROC mean :')
             f.write(str(aurocMean))
@@ -273,7 +271,7 @@ class ChexnetTrainer():
                 f.write('The AUROC of {} is {}'.format(CLASS_NAMES[i], aurocIndividual[i]))
                 f.write('\n')
             f.close()
-        
+
         return
 
 
